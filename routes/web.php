@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,4 +22,12 @@ Route::get('/', function () {
     ->get();
     $sites = DB::table('site_url')->get();
     return view('welcome', compact('site_list', 'sites', 'site__bt_list'));
+});
+
+Route::get('search', function(Request $request) {
+    $query = $request->query('q', '');
+    $sites = DB::table('site_url')
+                ->where('name', 'like', "%{$query}%")
+                ->get();
+    return response()->json($sites);
 });

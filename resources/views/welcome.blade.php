@@ -8,6 +8,8 @@
 
         <!-- Fonts -->
         <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap">
+
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <!-- Styles -->
         <style>
@@ -16,36 +18,88 @@
 
         <style>
             body {
-                font-family: 'Open Sans','나눔바른고딕',NanumBarunGothic,ng,'맑은 고딕','Malgun Gothic','돋움',Dotum,'애플 SD 산돌고딕 Neo','Apple SD Gothic Neo',AppleGothic,Helvetica,sans-serif;
+                font-family: 'Open Sans', '나눔바른고딕', NanumBarunGothic, ng, '맑은 고딕', 'Malgun Gothic', '돋움', Dotum, '애플 SD 산돌고딕 Neo', 'Apple SD Gothic Neo', AppleGothic, Helvetica, sans-serif;
+                font-weight: bold;
+            }
+            .nested-list {
+                
+                border-top: 2px solid #ccc; /* Adjust border color as needed */
             }
         </style>
     </head>
     <body>
         <div class=" md:px-20 lg:px-32 xl:px-56">
             <header>
-                <div class="shearch-model hidden">
-                    <div class="flex flex-row items-center border-gray-300 border-b-2 gap-2 justify-start w-full mb-3">
-                        <input type="text" class="w-full bg-transparent border-none focus:border-none focus:outline-none px-2 py-2" placeholder="search">
+                <div id="search-model" class="shearch-model hidden bg-green-800 px-4 py-3">
+                    <div class="flex flex-row items-center border-gray-300 border-b-2 gap-2 justify-start w-full">
+                        <input type="text" class="w-full bg-transparent border-none focus:border-none focus:outline-none px-2 py-2" id="search-input" placeholder="search">
                         <div class="w-12 text-right">
-                            <i class="fa fa-cancel text-red-400"></i>
+                            <i class="fa fa-cancel text-red-400" id="close-btn"></i>
                         </div>
                     </div>                    
-                    <div class="flex flex-column items-center justify-start">
-                        <div>
-                            search value   
-                        </div>
+                    <div id="search-results" class="flex flex-col items-start justify-start bg-white">
                     </div>
                 </div>
-                <nav class=" w-full flex flex-column justify-end items-end bg-green-800 py-2 pr-4">
-                    <ul class="flex flex-row items-center justify-start gap-3 ">
-                        <li><a href="#링크닷컴메인" class="text-white">링크닷컴메인</a></li>
+                <nav id="main-nav" class="w-full flex flex-column justify-end items-end bg-green-800 py-2 pr-4">
+                    <ul class="flex flex-row items-center justify-start gap-3">
+                        <li><a href="{{url('/')}}" class="text-white">링크닷컴메인</a></li>
                         <li><a href="#공지사항" class="text-white">공지사항</a></li>
                         <li><a href="#광고/제휴문의" class="text-white">광고/제휴문의</a></li>
-                        <li><a href="#고객센터" class="text-white">고객센터</a></li>
-                        <li class="pl-3"><a href="#고객센터" class="text-white"><i class="fa fa-search"></i></a></li>
+                        <li><a href="https://t.me/linksto09" target="_blank" class="text-white"><i class="fa-brands fa-telegram mr-1"></i>고객센터</a></li>
+                        <li class="pl-3" id="search-btn">
+                            <a href="#고객센터" class="text-white"><i class="fa fa-search"></i></a>
+                        </li>
                     </ul>
                 </nav>
             </header>
+            
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const searchBtn = document.getElementById('search-btn');
+                    const searchModel = document.getElementById('search-model');
+                    const closeBtn = document.getElementById('close-btn');
+                    const searchResults = document.getElementById('search-results');
+
+                    searchBtn.addEventListener('click', function(event) {
+                        event.preventDefault();
+                        searchModel.classList.toggle('hidden');
+                    });
+
+                    closeBtn.addEventListener('click', function() {
+                        searchModel.classList.add('hidden');
+                    });
+
+                    const searchInput = searchModel.querySelector('input');
+                    
+                    searchInput.addEventListener('input', function() {
+                        const query = searchInput.value;
+                        if (query.length > 0) { // Start searching when input has more than 2 characters
+                            fetch(`{{url('/')}}/search?q=${encodeURIComponent(query)}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    searchResults.innerHTML = ''; // Clear previous results
+                                    data.forEach(site => {
+                                        const resultItem = document.createElement('div');
+                                        resultItem.classList.add('px-2');
+                                        
+                                        const link = document.createElement('a');
+                                        link.href = site.url; // Assuming `site.url` contains the URL
+                                        link.target = '_blank';
+                                        link.textContent = site.name; // Assuming `site.name` contains the name of the site
+                                        
+                                        resultItem.appendChild(link);
+                                        searchResults.appendChild(resultItem);
+                                    });
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching search results:', error);
+                                });
+                        }
+                    });
+                });
+            </script>
+            
+            
             <div class="flex flex-row w-full items-start gap-3 justify-around">
                 <div class="w-60">
                     <img src="https://linkdott.com/files/attach/images/161/161/19c73eef1377e8a0844da88771d9fd95.gif" >
@@ -118,22 +172,57 @@
                     <img src="https://linkdott.com/files/attach/images/161/161/d4efbdf021b55e5bebec08bcad2376f0.png" alt="Icon">
                 </div>
             </div>
-            <div class="socleil-wrapper  mt-5  grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 pb-0.5 gap-0" >
-                <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+            <div class="socleil-wrapper  mt-5  grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 pb-0.5 gap-0.5" >
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
+                <div class="px-0.5 py-0.5 border-2 border-green-600">
+                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
+                </div>
             </div>
             <div class="socleil-wrapper grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-0.5" >
                 @foreach ($site_list as $item)  
-                    <div class="link_wrapper border-2 border-gray-500">
-                        <div class="w-full flex flex-row items-center justify-center gap-3  py-3 border-b-2  border-gray-500">
+                    <div class="link_wrapper border-2 border-gray-200 py-2">
+                        <div class="w-full flex flex-row items-center justify-center gap-3  py-3 border-b-2  border-gray-200">
                             <img src="{{ 'https://streamingadmin.m27.shop/'.$item->icons }}" alt="" width="20px" height="20px">
                             <h3 class="text-center">{{ $item->name }}</h3>
                         </div>
@@ -142,7 +231,7 @@
                                @if ($site->site_category_id === $item->id)      
                                     <li>
                                         <a href="{{ $site->url }}" target="_blank" 
-                                            class="flex flex-row items-center justify-start gap-2 py-0.5 pl-2 
+                                            class="flex flex-row items-center justify-start gap-2 py-0 pl-2 
                                             {{ 
                                                  $site->ranking == 1 ? 'text-green-600 font-bold' : 
                                                 ($site->ranking == 2 ? 'text-green-500 font-bold' : 
@@ -151,7 +240,10 @@
                                                 ($site->ranking == 5 ? 'text-red-300 font-bold' : ''))))
                                             }}
                                              ">
-                                            <img src="{{ 'https://streamingadmin.m27.shop/' . $site->icons }}" alt="{{ $site->name }}" height="30" width="30">
+                                             
+                                            <img src="{{ asset('rank_icon/'.$site->ranking.'.jpg') }}" alt="{{ $site->name }}" 
+                                                width="36" height="36"
+                                            >
                                             <span>{{ $site->name }}</span>
                                         </a>                                        
                                     </li>
@@ -162,26 +254,42 @@
                 @endforeach
             </div>
             <div class="footer pb-4">
-                <ul class="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-7 py-2 gap-1 border-b-2">
-                    @foreach ($site__bt_list as $item)
-                        <li class="text-center">
-                            {{ $item->name }}
-                            <ul>
-                                @foreach ($sites as $site) 
-                                     @if ($site->site_category_id === $item->id)      
-                                        <li>
-                                            <a href="{{ $site->url }}" target="_blank" 
-                                                class="flex flex-row items-center justify-start gap-2 py-2 pl-2">
-                                                <span>{{ $site->name }}</span>
-                                            </a>                                        
-                                        </li>
-                                    @endif
-                                @endforeach
-                            </ul>
-                        </li>
-                    @endforeach
+                <ul class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 py-2 border-b-2">
+                  @foreach ($site__bt_list as $item)
+                    <li class="parent-item">
+                      {{ $item->name }} <span><i class="fa-solid fa-angles-right"></i></span>
+                      <!-- Nested UL -->
+                      <ul class="nested-list mt-2">
+                        @foreach ($sites as $site) 
+                          @if ($site->site_category_id === $item->id)      
+                            <li class="text-center">
+                              <a href="{{ $site->url }}" target="_blank" 
+                                 class="flex flex-row items-center justify-start gap-2 pl-2 font-bold">
+                                <span>{{ $site->name }}</span>
+                              </a>                                        
+                            </li>
+                          @endif
+                        @endforeach
+                      </ul>
+                    </li>
+                  @endforeach
                 </ul>
             </div>
         </div>
+        <div class=" w-12 h-12 shadow-md flex flex-row fixed bottom-4 right-2 items-center justify-center rounded-full text-white bg-green-600 scroll-to-top">
+            <i class="fa-solid fa-angles-up"></i>
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+            const scrollToTopButton = document.querySelector(".scroll-to-top");
+
+            scrollToTopButton.addEventListener("click", () => {
+                window.scrollTo({
+                top: 0,
+                behavior: 'smooth' // Smooth scrolling effect
+                });
+            });
+            });
+        </script>
     </body>
 </html>
