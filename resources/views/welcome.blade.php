@@ -2,7 +2,8 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>Like site</title>
 
@@ -21,6 +22,7 @@
                 font-family: 'Open Sans', '나눔바른고딕', NanumBarunGothic, ng, '맑은 고딕', 'Malgun Gothic', '돋움', Dotum, '애플 SD 산돌고딕 Neo', 'Apple SD Gothic Neo', AppleGothic, Helvetica, sans-serif;
                 font-weight: bold;
             }
+            body::scr
             .nested-list {
                 
                 border-top: 2px solid #ccc; /* Adjust border color as needed */
@@ -28,118 +30,55 @@
         </style>
     </head>
     <body>
-        <div class=" md:px-20 lg:px-32 xl:px-56">
-            <header>
-                <div id="search-model" class="shearch-model hidden bg-green-800 px-4 py-3">
-                    <div class="flex flex-row items-center border-gray-300 border-b-2 gap-2 justify-start w-full">
-                        <input type="text" class="w-full bg-transparent border-none focus:border-none focus:outline-none px-2 py-2" id="search-input" placeholder="search">
-                        <div class="w-12 text-right">
-                            <i class="fa fa-cancel text-red-400" id="close-btn"></i>
-                        </div>
-                    </div>                    
-                    <div id="search-results" class="flex flex-col items-start justify-start bg-white">
+        <div class=" ">
+            <header class="bg-blue-800 px-2 md:px-20 lg:px-32 xl:px-56">
+                <nav id="main-nav" class="w-full flex flex-col md:flex-row  justify-between items-center bg-blue-800 py-2 pr-4">
+                    <div class="logo w-full md:w-1/2">
+                        <img src="{{asset('logo.png')}}" class="w-40 md:w-60">
                     </div>
-                </div>
-                <nav id="main-nav" class="w-full flex flex-column justify-end items-end bg-green-800 py-2 pr-4">
-                    <ul class="flex flex-row items-center justify-start gap-3">
-                        <li><a href="{{url('/')}}" class="text-white">링크닷컴메인</a></li>
-                        <li><a href="#공지사항" class="text-white">공지사항</a></li>
-                        <li><a href="#광고/제휴문의" class="text-white">광고/제휴문의</a></li>
-                        <li><a href="https://t.me/linksto09" target="_blank" class="text-white"><i class="fa-brands fa-telegram mr-1"></i>고객센터</a></li>
+                    <ul class="flex flex-row items-center justify-end gap-3 w-full md:w-1/2">
+                        <li><a href="{{url('/inquiry')}}" class="text-white">등록하다</a></li>
+                        <li><a href="https://t.me/Maycs09" class="text-white">연락하다</a></li>
+                        <li><a href="https://t.me/Maycs09" target="_blank" class="text-white"><i class="fa-brands fa-telegram mr-1"></i>1:1문의</a></li>
                         <li class="pl-3" id="search-btn">
-                            <a href="#고객센터" class="text-white"><i class="fa fa-search"></i></a>
+                            <!-- <a href="#고객센터" class="text-white"><i class="fa fa-search"></i></a> -->
+                            <div id="search-model" class="shearch-model px-4 py-3">
+                                <div class="flex flex-row items-center border-gray-300 border-b-2 gap-2 justify-start w-full">
+                                    <input type="text" class="w-full text-white bg-transparent border-none focus:border-none focus:outline-none px-2 py-2" id="search-input" placeholder="search">
+                                    <div class="w-12 text-right text-white">
+                                        <button type="submit">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+                                    </div>
+                                </div>                    
+                                <div id="search-results" class="flex flex-col items-start justify-start bg-white">
+                                </div>
+                            </div>
                         </li>
                     </ul>
                 </nav>
             </header>
-            
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const searchBtn = document.getElementById('search-btn');
-                    const searchModel = document.getElementById('search-model');
-                    const closeBtn = document.getElementById('close-btn');
-                    const searchResults = document.getElementById('search-results');
-
-                    searchBtn.addEventListener('click', function(event) {
-                        event.preventDefault();
-                        searchModel.classList.toggle('hidden');
-                    });
-
-                    closeBtn.addEventListener('click', function() {
-                        searchModel.classList.add('hidden');
-                    });
-
-                    const searchInput = searchModel.querySelector('input');
-                    
-                    searchInput.addEventListener('input', function() {
-                        const query = searchInput.value;
-                        if (query.length > 0) { // Start searching when input has more than 2 characters
-                            fetch(`{{url('/')}}/search?q=${encodeURIComponent(query)}`)
-                                .then(response => response.json())
-                                .then(data => {
-                                    searchResults.innerHTML = ''; // Clear previous results
-                                    data.forEach(site => {
-                                        const resultItem = document.createElement('div');
-                                        resultItem.classList.add('px-2');
-                                        
-                                        const link = document.createElement('a');
-                                        link.href = site.url; // Assuming `site.url` contains the URL
-                                        link.target = '_blank';
-                                        link.textContent = site.name; // Assuming `site.name` contains the name of the site
-                                        
-                                        resultItem.appendChild(link);
-                                        searchResults.appendChild(resultItem);
-                                    });
-                                })
-                                .catch(error => {
-                                    console.error('Error fetching search results:', error);
-                                });
-                        }
-                    });
-                });
-            </script>
-            
-            
             <div class="flex flex-row w-full items-start gap-3 justify-around">
-                <div class="w-60">
-                    <img src="https://linkdott.com/files/attach/images/161/161/19c73eef1377e8a0844da88771d9fd95.gif" >
-                </div>
                 <div class=" w-full ">
-                    <form id="searchForm" action="https://www.google.co.kr/search?service=" target="_blank" class="bg-green-800 py-3 px-5 flex flex-row items-center justify-start">
+                    <form id="searchForm" action="https://www.google.co.kr/search?service=" target="_blank" class="bg-blue-800 py-3 px-5 flex flex-row items-center justify-start">
                         <div class="w-60 selection border-b-2 h-full border-green-300">
                             <select id="searchEngine" name="service" class="w-full bg-transparent text-white focus:outline-none py-1">
-                                <option class="bg-green-800 px-2 py-2" data-engine="google" data-query="q" value="https://www.google.co.kr/search?service=q">구글</option>
-                                <option class="bg-green-800 px-2 py-2" data-engine="naver" data-query="query" value="https://search.naver.com/search.naver?sm=top_hty&amp;fbm=1&amp;ie=utf8&amp;query=">네이버</option>
-                                <option class="bg-green-800 px-2 py-2" data-engine="daum" data-query="q" value="https://search.daum.net/search?w=tot&amp;DA=YZR&amp;t__nil_searchbox=btn&amp;sug=&amp;sugo=&amp;q=">다음</option>
-                                <option class="bg-green-800 px-2 py-2" data-engine="nate" data-query="q" value="https://search.daum.net/nate?thr=sbma&amp;w=tot&amp;q=">네이트</option>
-                                <option class="bg-green-800 px-2 py-2" data-engine="zum" data-query="query" value="https://search.zum.com/search.zum?method=uni&amp;option=accu&amp;qm=f_typing&amp;rd=1&amp;query=">ZUM</option>
-                                <option class="bg-green-800 px-2 py-2" data-engine="youtube" data-query="q" value="https://www.youtube.com/results?search_query=">유튜브</option>
-                                <option class="bg-green-800 px-2 py-2" data-engine="bing" data-query="q" value="https://www.bing.com/search?q=">Bing</option>
+                                <option class="bg-blue-800 px-2 py-2" data-engine="google" data-query="q" value="https://www.google.co.kr/search?service=q">구글</option>
+                                <option class="bg-blue-800 px-2 py-2" data-engine="naver" data-query="query" value="https://search.naver.com/search.naver?sm=top_hty&amp;fbm=1&amp;ie=utf8&amp;query=">네이버</option>
+                                <option class="bg-blue-800 px-2 py-2" data-engine="daum" data-query="q" value="https://search.daum.net/search?w=tot&amp;DA=YZR&amp;t__nil_searchbox=btn&amp;sug=&amp;sugo=&amp;q=">다음</option>
+                                <option class="bg-blue-800 px-2 py-2" data-engine="nate" data-query="q" value="https://search.daum.net/nate?thr=sbma&amp;w=tot&amp;q=">네이트</option>
+                                <option class="bg-blue-800 px-2 py-2" data-engine="zum" data-query="query" value="https://search.zum.com/search.zum?method=uni&amp;option=accu&amp;qm=f_typing&amp;rd=1&amp;query=">ZUM</option>
+                                <option class="bg-blue-800 px-2 py-2" data-engine="youtube" data-query="q" value="https://www.youtube.com/results?search_query=">유튜브</option>
+                                <option class="bg-blue-800 px-2 py-2" data-engine="bing" data-query="q" value="https://www.bing.com/search?q=">Bing</option>
                             </select>
                         </div>
                         <div class="w-full searchbar border-b-2 border-l-2 h-full border-green-300 flex flex-row items-center justify-start gap-1">
                             <input id="searchQuery" type="text" placeholder="검색어를 입력하세요" class="w-full text-white bg-transparent border-none focus:border-none focus:outline-none px-2 py-1">
-                            <button type="submit" class="text-nowrap w-16 py-1 bg-green-600 h-full flex flex-column items-center justify-center">
+                            <button type="submit" class="text-nowrap w-16 py-1 bg-blue-600 h-full flex flex-column items-center justify-center">
                                 <span class="text-white">검색</span>
                             </button>
                         </div>
                     </form>
-                    <script>
-                        document.getElementById('searchForm').addEventListener('submit', function(event) {
-                            event.preventDefault(); // Prevent the default form submission
-                            
-                            const select = document.getElementById('searchEngine');
-                            const queryInput = document.getElementById('searchQuery');
-                            const selectedOption = select.options[select.selectedIndex];
-                            const baseURL = selectedOption.value;
-                            const queryParam = selectedOption.getAttribute('data-query');
-                            const query = encodeURIComponent(queryInput.value);
-                            
-                            const finalURL = baseURL + (baseURL.includes('?') ? '&' : '?') + queryParam + '=' + query;
-                            
-                            window.open(finalURL, '_blank'); // Open the search in a new tab
-                        });
-                    </script>
                 </div>
             </div>
             <div class="socleil-wrapper mb-14 px-9 grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-9 py-4 gap-4" style=" border-bottom:1px solid gray;">
@@ -172,111 +111,13 @@
                     <img src="https://linkdott.com/files/attach/images/161/161/d4efbdf021b55e5bebec08bcad2376f0.png" alt="Icon">
                 </div>
             </div>
-            <div class="socleil-wrapper  mt-5  grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-5 pb-0.5 gap-0.5" >
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
-                <div class="px-0.5 py-0.5 border-2 border-green-600">
-                    <img src="https://linkdott.com/files/attach/images/99003/050/099/157ec4994d94abaa1a44941df8dc67ef.jpg" alt="">
-                </div>
+             <!-- yieldher -->
+            <div class="yield px-2 md:px-20 lg:px-32 xl:px-56">
+                @yield('content')
             </div>
-            <div class="socleil-wrapper grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 gap-0.5" >
-                @foreach ($site_list as $item)  
-                    <div class="link_wrapper border-2 border-gray-200 py-2">
-                        <div class="w-full flex flex-row items-center justify-center gap-3  py-3 border-b-2  border-gray-200">
-                            <img src="{{ 'https://streamingadmin.m27.shop/'.$item->icons }}" alt="" width="20px" height="20px">
-                            <h3 class="text-center">{{ $item->name }}</h3>
-                        </div>
-                        <ul>
-                            @foreach ($sites as $site)
-                               @if ($site->site_category_id === $item->id)      
-                                    <li>
-                                        <a href="{{ $site->url }}" target="_blank" 
-                                            class="flex flex-row items-center justify-start gap-2 py-0 pl-2 
-                                            {{ 
-                                                 $site->ranking == 1 ? 'text-green-600 font-bold' : 
-                                                ($site->ranking == 2 ? 'text-green-500 font-bold' : 
-                                                ($site->ranking == 3 ? 'text-blue-400 font-bold' : 
-                                                ($site->ranking == 4 ? 'text-green-300 font-bold' : 
-                                                ($site->ranking == 5 ? 'text-red-300 font-bold' : ''))))
-                                            }}
-                                             ">
-                                             
-                                            <img src="{{ asset('rank_icon/'.$site->ranking.'.jpg') }}" alt="{{ $site->name }}" 
-                                                width="36" height="36"
-                                            >
-                                            <span>{{ $site->name }}</span>
-                                        </a>                                        
-                                    </li>
-                                @endif
-                            @endforeach
-                        </ul>
-                    </div>
-                @endforeach
-            </div>
-            <div class="footer pb-4">
-                <ul class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 py-2 border-b-2">
-                  @foreach ($site__bt_list as $item)
-                    <li class="parent-item">
-                      {{ $item->name }} <span><i class="fa-solid fa-angles-right"></i></span>
-                      <!-- Nested UL -->
-                      <ul class="nested-list mt-2">
-                        @foreach ($sites as $site) 
-                          @if ($site->site_category_id === $item->id)      
-                            <li class="text-center">
-                              <a href="{{ $site->url }}" target="_blank" 
-                                 class="flex flex-row items-center justify-start gap-2 pl-2 font-bold">
-                                <span>{{ $site->name }}</span>
-                              </a>                                        
-                            </li>
-                          @endif
-                        @endforeach
-                      </ul>
-                    </li>
-                  @endforeach
-                </ul>
-            </div>
+            
         </div>
-        <div class=" w-12 h-12 shadow-md flex flex-row fixed bottom-4 right-2 items-center justify-center rounded-full text-white bg-green-600 scroll-to-top">
+        <div class=" w-12 h-12 shadow-md flex flex-row fixed bottom-4 right-2 items-center justify-center rounded-full text-white bg-blue-600 scroll-to-top">
             <i class="fa-solid fa-angles-up"></i>
         </div>
         <script>
@@ -291,5 +132,69 @@
             });
             });
         </script>
+              <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    const searchBtn = document.getElementById('search-btn');
+                    const searchModel = document.getElementById('search-model');
+                    const closeBtn = document.getElementById('close-btn');
+                    const searchResults = document.getElementById('search-results');
+
+                    // searchBtn.addEventListener('click', function(event) {
+                    //     event.preventDefault();
+                    //     searchModel.classList.toggle('hidden');
+                    // });
+
+                    // closeBtn.addEventListener('click', function() {
+                    //     searchModel.classList.add('hidden');
+                    // });
+
+                    const searchInput = searchModel.querySelector('input');
+                    
+                    searchInput.addEventListener('input', function() {
+                        const query = searchInput.value;
+                        if (query.length > 0) { // Start searching when input has more than 2 characters
+                            fetch(`{{url('/')}}/search?q=${encodeURIComponent(query)}`)
+                                .then(response => response.json())
+                                .then(data => {
+                                    searchResults.innerHTML = ''; // Clear previous results
+                                    data.forEach(site => {
+                                        const resultItem = document.createElement('div');
+                                        resultItem.classList.add('px-2');
+                                        
+                                        const link = document.createElement('a');
+                                        link.href = site.url; // Assuming `site.url` contains the URL
+                                        link.target = '_blank';
+                                        link.textContent = site.name; // Assuming `site.name` contains the name of the site
+                                        
+                                        resultItem.appendChild(link);
+                                        searchResults.appendChild(resultItem);
+                                    });
+                                })
+                                .catch(error => {
+                                    console.error('Error fetching search results:', error);
+                                });
+                        }
+                        else{
+                            searchResults.innerHTML='';
+                        }
+                    });
+                });
+            </script>
+               <script>
+                        document.getElementById('searchForm').addEventListener('submit', function(event) {
+                            event.preventDefault(); // Prevent the default form submission
+                            
+                            const select = document.getElementById('searchEngine');
+                            const queryInput = document.getElementById('searchQuery');
+                            const selectedOption = select.options[select.selectedIndex];
+                            const baseURL = selectedOption.value;
+                            const queryParam = selectedOption.getAttribute('data-query');
+                            const query = encodeURIComponent(queryInput.value);
+                            
+                            const finalURL = baseURL + (baseURL.includes('?') ? '&' : '?') + queryParam + '=' + query;
+                            
+                            window.open(finalURL, '_blank'); // Open the search in a new tab
+                        });
+                    </script>
     </body>
 </html>
