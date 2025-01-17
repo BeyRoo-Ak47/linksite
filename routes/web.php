@@ -7,7 +7,7 @@ use Spatie\Honeypot\ProtectAgainstSpam;
 
 Route::get('/', function () {
     $site_list = DB::table('clone_category')
-        ->where('id', '!=', 7)
+        ->whereNotIn('id',[4,12,13])
         ->limit(12)
         ->get();
 
@@ -38,7 +38,7 @@ Route::get('/', function () {
 Route::get('/category', function (Request $request) {
     $id = $request->input('id');
     $site_list = DB::table('clone_category')
-    ->where('id','!=',7)
+    ->whereNotIn('id',[4,12,13])
     ->limit(12)->get();
     $sites = DB::table('clone_url')
     ->where('site_category_id','=',$id)
@@ -49,7 +49,7 @@ Route::get('/category', function (Request $request) {
 Route::get('looking', function(Request $request){
     $search = $request->input('s');
     $site_list = DB::table('clone_category')
-    ->where('id','!=',7)
+    ->whereNotIn('id',[4,12,13])
     ->limit(12)->get();
     $sites = DB::table('clone_url')
     ->where('name','like',"%{$search}%")
@@ -60,7 +60,7 @@ Route::get('looking', function(Request $request){
 
 Route::get('inquiry', function(){
     $site_list = DB::table('clone_category')
-    ->where('id','!=',7)
+    ->whereNotIn('id',[4,12,13])
     ->limit(12)->get();
     return view('inquiry', compact('site_list'));
 });
@@ -93,3 +93,19 @@ Route::get('search', function(Request $request) {
                 ->get();
     return response()->json($sites);
 });
+Route::get('/landing',function(Request $request){
+    $sites_id = $request->input('id');
+    $site_list = DB::table('clone_category')
+        ->whereNotIn('id',[4,12,13])
+        ->limit(12)
+        ->get();
+    $site = DB::table('clone_url')
+        ->where('id', $sites_id)
+        ->first();
+
+    // Debugging output
+    // dd($site_list, $site);
+
+    return view('landing', compact('site_list', 'site'));
+});
+

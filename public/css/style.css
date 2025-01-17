@@ -1,4 +1,8 @@
 
+            @font-face {
+              font-family: 'kr';
+              src: url('/font/NotoSerifKR-VariableFont_wght.ttf') format('truetype');
+            }
             body {
                 font-family: 'Open Sans', '나눔바른고딕', NanumBarunGothic, ng, '맑은 고딕', 'Malgun Gothic', '돋움', Dotum, '애플 SD 산돌고딕 Neo', 'Apple SD Gothic Neo', AppleGothic, Helvetica, sans-serif;
                 font-weight: bold;
@@ -6,18 +10,124 @@
             .card {
                 display: grid;
                 grid-template-columns: repeat(2, 1fr); /* Default: 2 columns */
+                gap: 4px;
+            }
+            .insideSocial{
+                display: grid;
+                grid-template-columns: repeat(7, 1fr); /* Default: 2 columns */
                 gap: 10px;
             }
-            @media (min-width: 1100px) {
+            .sidebar {
+                  /* position: relative; */
+                  height: 100%; /* Example height */
+                  overflow: hidden;
+              }
+              .banner {
+                  /* position: absolute; */
+                  top: 3;
+                  /* right: 0; */
+                  /* width: 100%; */
+                  transition: transform 0.3s ease; /* Smooth scrolling effect */
+              }
+              .logo img{
+                width: 70%;
+                height: auto;
+              }
+            @media (min-width: 1200px) {
                 .card {
                     grid-template-columns: repeat(3, 1fr); /* Medium screens: 3 columns */
                 }
+                .longAds img{
+                  height: 140px;
+                }
+                
             }
             @media (min-width: 1224px) {
                 .card {
                     grid-template-columns: repeat(5, 1fr); /* Large screens: 5 columns */
                 }
+                .longAds img{
+                  height: 140px;
+                }
+
             }
+            @media (max-width: 767px) {
+              .myBanner {
+                  display: none;
+              }
+              .inq {
+                  display: none;
+              }
+              .myContain {
+                  width: 100%;
+                  padding: 0px 10px;
+              }
+              .Mainlogo{
+                display: flex;
+                justify-content: space-between;
+              }
+              .mainHead{
+                width: 100%;
+                
+              }
+              .mobileInq{
+                margin-left: auto;
+              }
+              .myContain .ads img{
+                 height: 60px;
+              }
+              .menu {
+                display: inline-block;
+                outline: 0;
+                border: 0;
+                cursor: pointer;
+                background-color: #0d58bb;
+                border-radius: 4px;
+                padding: 4px 8px;
+                font-size: 14px;
+                border-bottom: 2px solid #103961;
+                font-weight: 600;
+                color: white;
+                line-height: 26px;
+              }
+              .button-66 {
+                background-color: #2476f2;
+                border-radius: 4px;
+                border: 0;
+                font-size: 10px;
+                box-shadow: rgba(1,60,136,.5) 0 -1px 3px 0 inset,rgba(0,44,97,.1) 0 3px 6px 0;
+                box-sizing: border-box;
+                color: #fff;
+                cursor: pointer;
+                display: inherit;
+                font-family: "Space Grotesk",-apple-system,system-ui,"Segoe UI",Roboto,Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+                margin: 0;
+                white-space: nowrap;
+                position: relative;
+                text-align: center;
+                user-select: none;
+                -webkit-user-select: none;
+                touch-action: manipulation;
+                vertical-align: baseline;
+                transition: all .2s cubic-bezier(.22, .61, .36, 1);     
+              }
+              .button-47{
+                font-size: 10px;
+              }
+              .button-47 .rank{
+                width: 15px;
+                height: 15px;
+              }
+              .insideSocial{
+                display: grid;
+                grid-template-columns: repeat(4, 1fr); /* Default: 2 columns */
+                gap: 2px;
+            }
+            .logo img{
+              width: 100%;
+              height: auto;
+            }
+          }
 
             body::scr
             .nested-list {
@@ -29,6 +139,16 @@
                 opacity: 1;
                 color: white;
             }
+            .referral{
+                font-family: 'kr';
+            }
+            /* Remove the border when focused */
+            .search-box:focus {
+              outline: none;
+              border: none;
+              box-shadow: none; /* Removes any shadow */
+            }
+
             .button-47 {
             align-items: center;
             background: #FFFFFF;
@@ -49,6 +169,10 @@
             -webkit-user-select: none;
             touch-action: manipulation;
             transition:0.3s;
+            }
+            .button-47 .rank{
+              width: 30px;
+              height: 30px;
             }
             .button-47:hover {
             align-items: center;
@@ -74,7 +198,7 @@
             appearance: button;
             background-color: #1899D6;
             border: solid transparent;
-            border-radius: 16px;
+            border-radius: 11px;
             border-width: 0 0 4px;
             box-sizing: border-box;
             color: #FFFFFF;
@@ -86,7 +210,7 @@
             margin: 0;
             outline: none;
             overflow: visible;
-            padding: 10px 15px;
+            padding: 6px 15px;
             text-align: center;
             text-transform: uppercase;
             touch-action: manipulation;
@@ -152,6 +276,28 @@
             -webkit-user-select: none;
             touch-action: manipulation;
             }
+            /* Remove default arrow */
+            .custom-select {
+              -webkit-appearance: none;
+              -moz-appearance: none;
+              appearance: none;
+              padding-right: 30px; /* Space for custom arrow */
+              background-color: transparent; /* Optional: makes the background transparent */
+              border: 1px solid #ccc; /* Optional: gives the select box a border */
+            }
+
+            /* Custom white arrow */
+            .custom-select::after {
+              content: '\25BC'; /* Unicode for a down arrow */
+              position: absolute;
+              right: 10px;
+              top: 50%;
+              transform: translateY(-50%);
+              font-size: 16px; /* Adjust size */
+              color: white; /* Change arrow color to white */
+              pointer-events: none; /* Ensures the arrow doesn't block interaction with the select box */
+            }
+
 
             .button-33:hover {
             box-shadow: rgba(44,187,99,.35) 0 -25px 18px -14px inset,rgba(44,187,99,.25) 0 1px 2px,rgba(44,187,99,.25) 0 2px 4px,rgba(44,187,99,.25) 0 4px 8px,rgba(44,187,99,.25) 0 8px 16px,rgba(44,187,99,.25) 0 16px 32px;
@@ -205,9 +351,7 @@
             }
 
             @media (min-width: 768px) {
-            .button-66 {
-                
-            }
+            
             }
             input::-webkit-outer-spin-button,
             input::-webkit-inner-spin-button {
@@ -271,7 +415,7 @@
     border-radius: 4px;
     padding: 8px 16px;
     font-size: 16px;
-    border-bottom: 4px solid #879099;
+    border-bottom: 2px solid #103961;
     font-weight: 700;
     color: white;
     line-height: 26px;
@@ -346,4 +490,24 @@ body {
   50% {
     background-position: 100% 50%;
   }
+}
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  /* 10% { transform: translate(-1px, -2px) rotate(-1deg); } */
+  20% { transform: translate(-2px, 0px) rotate(1deg); }
+  /* 30% { transform: translate(2px, 2px) rotate(0deg); } */
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  /* 50% { transform: translate(-1px, 2px) rotate(-1deg); } */
+  60% { transform: translate(-2px, 1px) rotate(0deg); }
+  /* 70% { transform: translate(2px, 1px) rotate(-1deg); } */
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  /* 90% { transform: translate(1px, 2px) rotate(0deg); } */
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+.cardLogo img {
+  /* Start the shake animation and make the animation last for 0.5 seconds */
+  animation: shake 1s;
+
+  /* When the animation is finished, start again */
+  animation-iteration-count: infinite;
 }
